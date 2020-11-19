@@ -35,6 +35,24 @@ class Snow(pygame.sprite.Sprite):
         self.rot = 0
         self.angle = random.randint(-1, 1)
 
+    def update(self):
+        self.rect.y += self.speed
+        if self.rect.top > H:
+            self.rect.bottom = 0
+
+        N = random.randint(1, 3)
+        if N == 1:
+            self.rect.x += 0.1
+            if self.rect.left > W:
+                self.rect.right = 0
+        elif N == 2:
+            self.rect.x -= 0.1
+            if self.rect.right < 0:
+                self.rect.left = W
+
+        self.rot = (self.rot + self.angle) % 360
+        self.rect = self.image.get_rect(center=self.rect.center)
+
 
 def check_for_exit():
     for e in pygame.event.get():
@@ -64,3 +82,4 @@ while True:
     snowgroup.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
+
